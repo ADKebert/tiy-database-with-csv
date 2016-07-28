@@ -134,11 +134,50 @@ class Menu
       end
     end
     positions.each do |position|
+      employees = get_people_with_job(position)
       puts BUFFER
-      puts "Position: #{position}  Salary min max avg"
-      puts "Number of #{position}s: num_of_peeps"
-      puts "Names: list of people in position"
+      puts "Position: #{position}  Salary Min: $#{get_min_salary(employees)}
+            Max: $#{get_max_salary(employees)} Average: $#{get_avg_salary(employees)}"
+      puts "Number of #{position}s: #{employees.length}"
+      puts "Names: "
+      employees.each do |employee|
+        print "#{employee.name} "
+      end
       puts BUFFER
+    end
+  end
+
+  def get_min_salary(employees)
+    min = Float::INFINITY
+    employees.each do |employee|
+      if employee.salary.to_f < min
+        min = employee.salary.to_f
+      end
+    end
+    min
+  end
+
+  def get_max_salary(employees)
+    max = 0
+    employees.each do |employee|
+      if employee.salary.to_f > max
+        max = employee.salary.to_f
+      end
+    end
+    max
+  end
+
+  def get_avg_salary(employees)
+    sum = 0
+    employees.each do |employee|
+      sum += employee.salary.to_f
+    end
+    sum / employees.length
+  end
+
+  def get_people_with_job(job)
+    @people.select do |person|
+      person.position == job
     end
   end
 
