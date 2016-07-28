@@ -4,4 +4,13 @@ class Person
   def initialize(name)
     self.name = name
   end
+
+  def full_add(name, phone_num, address, position, slack, github)
+    self.name = name
+    self.phone_number = phone_num
+    self.address = address
+    self.position = position
+    self.slack_account = slack
+    self.github_account = github
+  end
 end
