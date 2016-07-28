@@ -1,8 +1,11 @@
 require_relative 'person'
+require 'csv'
 
 class Menu
+  BUFFER = "\n" + "-" * 50 + "\n\n"
   def initialize
     @people = []
+    read_from_csv
   end
 
   def prompt_for_desired_action
@@ -14,26 +17,34 @@ class Menu
     gets.chomp.downcase
   end
 
-  def add_details_to_person(person)
-    politeness = "Please enter #{person.name}'s"
-    puts "#{politeness} phone number"
-    person.phone_number = gets.chomp
-    puts "#{politeness} address"
-    person.address = gets.chomp
-    puts "#{politeness} position"
-    person.position = gets.chomp
-    puts "#{politeness} salary"
-    person.salary = gets.chomp
-    puts "#{politeness} slack account"
-    person.slack_account = gets.chomp
-    puts "#{politeness} github account"
-    person.github_account = gets.chomp
-  end
-
   def add_new_person
     puts "What is the person's name?"
-    @people << Person.new(gets.chomp)
-    add_details_to_person(@people[-1])
+    name = gets.chomp
+
+    politeness = "Please enter #{name}'s"
+
+    puts "#{politeness} phone number"
+    phone_number = gets.chomp
+
+    puts "#{politeness} address"
+    address = gets.chomp
+
+    puts "#{politeness} position"
+    position = gets.chomp
+
+    puts "#{politeness} salary"
+    salary = gets.chomp
+
+    puts "#{politeness} slack account"
+    slack_account = gets.chomp
+
+    puts "#{politeness} github account"
+    github_account = gets.chomp
+
+    @people << Person.new(name, phone_number, address, position, salary, slack_account, github_account)
+    puts BUFFER
+    puts "#{@people[-1].name} has been added to the database."
+    puts BUFFER
   end
 
   def search_for_a_person(search_string)
@@ -45,6 +56,7 @@ class Menu
   end
 
   def describe_a_person(person)
+    puts BUFFER
     puts "Name: #{person.name}"
     puts "Phone Number: #{person.phone_number}"
     puts "Address: #{person.address}"
@@ -52,6 +64,7 @@ class Menu
     puts "Salary: #{person.salary}"
     puts "Slack Account: #{person.slack_account}"
     puts "Github Account: #{person.github_account}"
+    puts BUFFER
   end
 
   def search_prompt
@@ -60,6 +73,7 @@ class Menu
     targets = search_for_a_person(name)
     if targets.empty?
       puts "That person was not found"
+      puts BUFFER
     else
       targets.each do |target|
         describe_a_person(target)
@@ -72,6 +86,7 @@ class Menu
     targets = search_for_a_person(gets.chomp)
     if targets.empty?
       puts "That person was not found"
+      puts BUFFER
     else
       targets.each do |target|
         describe_a_person(target)
@@ -80,8 +95,21 @@ class Menu
         if response == 'y'
           @people.delete(target)
           puts "#{target.name} was removed from the database"
+          puts BUFFER
         end
       end
+    end
+  end
+
+  def read_from_csv
+    CSV.foreach('employee.csv', headers: true, header_converters: :symbol) do |person|
+      @people << Person.new(person[:name],
+                            person[:phone],
+                            person[:address],
+                            person[:position],
+                            person[:salary],
+                            person[:slack],
+                            person[:github])
     end
   end
 
