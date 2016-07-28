@@ -13,6 +13,7 @@ class Menu
     puts "Add a person to the database (A)"
     puts "Search for a person (S)"
     puts "Delete a person from the database (D)"
+    puts "Create a report (R)"
     puts "Type (E) when you are finished"
     gets.chomp.downcase
   end
@@ -125,6 +126,22 @@ class Menu
     end
   end
 
+  def create_report
+    positions = []
+    @people.each do |person|
+      unless positions.include? person.position
+        positions << person.position
+      end
+    end
+    positions.each do |position|
+      puts BUFFER
+      puts "Position: #{position}  Salary min max avg"
+      puts "Number of #{position}s: num_of_peeps"
+      puts "Names: list of people in position"
+      puts BUFFER
+    end
+  end
+
   def interact_with_the_db
     done = false
     until done
@@ -135,6 +152,8 @@ class Menu
         search_prompt
       when 'd'
         remove_a_person
+      when 'r'
+        create_report
       else
         done = true
       end
