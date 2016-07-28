@@ -45,6 +45,7 @@ class Menu
     puts BUFFER
     puts "#{@people[-1].name} has been added to the database."
     puts BUFFER
+    save_to_csv
   end
 
   def search_for_a_person(search_string)
@@ -96,6 +97,7 @@ class Menu
           @people.delete(target)
           puts "#{target.name} was removed from the database"
           puts BUFFER
+          save_to_csv
         end
       end
     end
@@ -110,6 +112,16 @@ class Menu
                             person[:salary],
                             person[:slack],
                             person[:github])
+    end
+  end
+
+  def save_to_csv
+    CSV.open('employee.csv', 'w') do |csv|
+      csv << %w{name phone address position salary slack github}
+      @people.each do |person|
+        csv << [person.name, person.phone_number, person.address, person.position,
+                person.salary, person.slack_account, person.github_account]
+      end
     end
   end
 
