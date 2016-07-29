@@ -1,4 +1,5 @@
 require_relative 'person'
+require 'text-table'
 require 'csv'
 
 class Menu
@@ -127,18 +128,33 @@ class Menu
   end
 
   def create_report
-    # positions = find_positions
     find_positions.each do |position|
       employees = get_people_with_job(position)
-      puts BUFFER
-      puts "Position: #{position}  Salary Min: $#{get_min_salary(employees)}
-            Max: $#{get_max_salary(employees)} Average: $#{get_avg_salary(employees)}"
-      puts "Number of #{position}s: #{employees.length}"
-      puts "Names: "
+      # puts BUFFER
+      # puts "Position: #{position}  Salary Min: $#{get_min_salary(employees)}
+      #       Max: $#{get_max_salary(employees)} Average: $#{get_avg_salary(employees)}"
+      # puts "Number of #{position}s: #{employees.length}"
+      # puts "Names: "
+      # employees.each do |employee|
+      #   print "#{employee.name} "
+      # end
+      # puts BUFFER
+      p Text::Table.new
+      report_table = Text::Table.new
+      report_table.head = ["Salary Min", "Max", "Avg"]
+      report_table.rows << [get_min_salary(employees),
+                            get_max_salary(employees),
+                            get_avg_salary(employees)]
+      report_table.rows << :separator
+      report_table.rows << [{ value: 'Number of employees:', colspan: 2 },
+                            employees.size]
+      names = ""
       employees.each do |employee|
-        print "#{employee.name} "
+        names += "#{employee.name} "
       end
-      puts BUFFER
+      report_table.rows << :separator
+      report_table.rows << ["Names:", { value: names, colspan: 2 }]
+      puts report_table
     end
   end
 
