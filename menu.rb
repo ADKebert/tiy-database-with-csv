@@ -130,7 +130,6 @@ class Menu
   def create_report
     find_positions.each do |position|
       employees = get_people_with_job(position)
-      p Text::Table.new
       report_table = Text::Table.new
       report_table.head = ["Salary Min", "Max", "Avg"]
       report_table.rows << [get_min_salary(employees).round(2),
