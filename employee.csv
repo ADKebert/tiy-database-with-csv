@@ -1,4 +1,8 @@
 name,phone,address,position,salary,slack,github
 Gavin,555-1212,1 Main Street,Instructor,1000000,gstark,gstark
 Jason,555-4242,500 Elm Street,Instructor,2000000,ambethia,ambethia
-Alan,6015501302,6050 34th,Student,20,alan.kebert,ADKebert
+Alan,555-1302,6050 34th,Student,20,alan.kebert,ADKebert
+Jon,555-2200,800 Central Ave,Student,40,jon.c,jon.git
+Bonnie,555-2323,200 Sparkleberry Ln,Student,38,bon.slack,bon.git
+Adam,555-8669,2350 Rad St,Student,80,adamn.slack,adamn.git
+Rob,555-5150,313 Witticism Ave,Student,200,rob.slack,rob.git
