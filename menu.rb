@@ -127,13 +127,8 @@ class Menu
   end
 
   def create_report
-    positions = []
-    @people.each do |person|
-      unless positions.include? person.position
-        positions << person.position
-      end
-    end
-    positions.each do |position|
+    # positions = find_positions
+    find_positions.each do |position|
       employees = get_people_with_job(position)
       puts BUFFER
       puts "Position: #{position}  Salary Min: $#{get_min_salary(employees)}
@@ -145,6 +140,17 @@ class Menu
       end
       puts BUFFER
     end
+  end
+
+  # Returns a list of unique postions in the database
+  def find_positions
+    positions = []
+    @people.each do |person|
+      unless positions.include? person.position
+        positions << person.position
+      end
+    end
+    positions
   end
 
   def get_min_salary(employees)
