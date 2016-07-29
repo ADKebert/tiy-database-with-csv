@@ -57,6 +57,17 @@ class Htmlifier
     string
   end
 
+  def div_start(string)
+    @indent_level += 1
+    string = "#{INDENT * @indent_level}<div class=\"#{string}\">\n"
+  end
+
+  def div_end
+    string = "#{INDENT * @indent_level}</div>\n"
+    @indent_level -= 1
+    string
+  end
+
   def add_line(string)
     @body_lines << string
   end
