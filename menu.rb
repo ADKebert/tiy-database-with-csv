@@ -130,15 +130,6 @@ class Menu
   def create_report
     find_positions.each do |position|
       employees = get_people_with_job(position)
-      # puts BUFFER
-      # puts "Position: #{position}  Salary Min: $#{get_min_salary(employees)}
-      #       Max: $#{get_max_salary(employees)} Average: $#{get_avg_salary(employees)}"
-      # puts "Number of #{position}s: #{employees.length}"
-      # puts "Names: "
-      # employees.each do |employee|
-      #   print "#{employee.name} "
-      # end
-      # puts BUFFER
       p Text::Table.new
       report_table = Text::Table.new
       report_table.head = ["Salary Min", "Max", "Avg"]
