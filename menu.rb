@@ -142,9 +142,9 @@ class Menu
       p Text::Table.new
       report_table = Text::Table.new
       report_table.head = ["Salary Min", "Max", "Avg"]
-      report_table.rows << [get_min_salary(employees),
-                            get_max_salary(employees),
-                            get_avg_salary(employees)]
+      report_table.rows << [get_min_salary(employees).round(2),
+                            get_max_salary(employees).round(2),
+                            get_avg_salary(employees).round(2)]
       report_table.rows << :separator
       report_table.rows << [{ value: 'Number of employees:', colspan: 2 },
                             employees.size]
