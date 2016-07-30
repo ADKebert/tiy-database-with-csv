@@ -45,9 +45,7 @@ class Menu
     github_account = gets.chomp
 
     @people << Person.new(name, phone_number, address, position, salary, slack_account, github_account)
-    puts BUFFER
-    puts "#{@people[-1].name} has been added to the database."
-    puts BUFFER
+    puts "#{BUFFER}#{@people.last.name} has been added to the database.#{BUFFER}"
     save_to_csv
   end
 
@@ -241,7 +239,7 @@ class Menu
           create_report
         else
           create_html_report
-          puts "saved as report.html"
+          puts "#{BUFFER}saved as report.html#{BUFFER}"
         end
       else
         done = true

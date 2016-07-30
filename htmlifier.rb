@@ -31,7 +31,7 @@ class Htmlifier
 
   def p(string)
     @indent_level += 1
-    string ="#{INDENT * @indent_level}<p>" + string + "</p>\n"
+    string = "#{INDENT * @indent_level}<p>" + string + "</p>\n"
     @indent_level -= 1
     string
   end
