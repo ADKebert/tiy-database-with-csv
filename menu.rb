@@ -175,6 +175,12 @@ class Menu
     end
   end
 
+  def prompt_for_kind_of_report
+    puts "Would you like to print the report to terminal (T)"
+    puts "or save to html? (H)"
+    response = gets.chomp.downcase
+  end
+
   # Returns a list of unique postions in the database
   def find_positions
     positions = []
@@ -231,7 +237,12 @@ class Menu
       when 'd'
         remove_a_person
       when 'r'
-        create_report
+        if prompt_for_kind_of_report == 't'
+          create_report
+        else
+          create_html_report
+          puts "saved as report.html"
+        end
       else
         done = true
       end
