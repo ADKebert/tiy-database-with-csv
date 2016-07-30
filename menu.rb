@@ -49,7 +49,7 @@ class Menu
     save_to_csv
   end
 
-  def search_for_a_person(search_string)
+  def get_people_that_match(search_string)
     @people.select do |person|
       person.name =~ /#{search_string}/ ||
       person.slack_account == search_string ||
@@ -72,7 +72,7 @@ class Menu
   def search_prompt
     puts "Please enter part of the person's name, or their full slack or github account name"
     name = gets.chomp
-    targets = search_for_a_person(name)
+    targets = get_people_that_match(name)
     if targets.empty?
       puts "That person was not found"
       puts BUFFER
@@ -85,7 +85,7 @@ class Menu
 
   def remove_a_person
     puts "What is the name of the person you would like to delete from the database?"
-    targets = search_for_a_person(gets.chomp)
+    targets = get_people_that_match(gets.chomp)
     if targets.empty?
       puts "That person was not found"
       puts BUFFER
