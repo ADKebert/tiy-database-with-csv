@@ -1,4 +1,5 @@
 require_relative 'person'
+require_relative 'htmlifier'
 require 'text-table'
 require 'csv'
 
@@ -145,6 +146,32 @@ class Menu
       report_table.rows << :separator
       report_table.rows << ["Names:", { value: names, colspan: 2 }]
       puts report_table
+    end
+  end
+
+  def create_html_report
+    File.open("report.html", "w") do |report_file|
+      report = Htmlifier.new
+      report.title = "Salary Report"
+      report.add_line(report.h1("Salary Report"))
+      find_positions.each do |position|
+        employees = get_people_with_job(position)
+        report.add_line(report.div_start("report-block"))
+        report.add_line(report.h2("Position: #{position}"))
+        report.add_line(report.ul_start)
+        report.add_line(report.li(report.p("Salary Min: #{get_min_salary(employees).round(2)}")))
+        report.add_line(report.li(report.p("Max: #{get_max_salary(employees).round(2)}")))
+        report.add_line(report.li(report.p("Average: #{get_avg_salary(employees).round(2)}")))
+        report.add_line(report.ul_end)
+        report.add_line(report.p("Number of employees: #{employees.size}"))
+        report.add_line(report.p("Names:"))
+        report.add_line(report.ul_start)
+        employees.each do |employee|
+          report.add_line(report.li(report.p(employee.name)))
+        end
+        report.add_line(report.ul_end)
+      end
+      report_file.puts report
     end
   end
 

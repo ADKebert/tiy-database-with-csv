@@ -1,6 +1,6 @@
 class Htmlifier
   INDENT = "  "
-  HTML_TOP = "<!DOCTYPE html>\n<html>\n#{INDENT}<head>\n#{INDENT * 2}<meta charset=\"utf-8\">\n"
+  HTML_TOP = "<!DOCTYPE html>\n<html>\n#{INDENT}<head>\n#{INDENT * 2}<meta charset=\"utf-8\">\n#{INDENT * 2}<link rel=\"stylesheet\" href=\"report.css\">\n"
   HTML_MID = "#{INDENT}</head>\n#{INDENT}<body>\n"
   HTML_BOT = "#{INDENT}</body>\n<html>"
   attr_accessor :title, :bodystring, :indent_level
@@ -12,7 +12,7 @@ class Htmlifier
   end
 
   def title=(string)
-     @title = "#{INDENT}<title>" + string + "</title>\n"
+    @title = "#{INDENT * 2}<title>" + string + "</title>\n"
   end
 
   def h1(string)
@@ -31,9 +31,7 @@ class Htmlifier
 
   def p(string)
     @indent_level += 1
-    string ="#{INDENT * @indent_level}<p>\n" +
-            INDENT * (@indent_level + 1) + string + "\n" +
-            "#{INDENT * @indent_level}</p>\n"
+    string ="#{INDENT * @indent_level}<p>" + string + "</p>\n"
     @indent_level -= 1
     string
   end

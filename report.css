@@ -1,0 +1,22 @@
+body {
+  font-family: "Helvetica neue", "Helvetica", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;;
+}
+
+h1 {
+  color: rgb(144, 19, 69);
+}
+
+ul {
+  white-space: nowrap;
+  list-style: none;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+li {
+  margin-right: 5%;
+}
