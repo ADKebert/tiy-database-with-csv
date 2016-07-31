@@ -6,6 +6,7 @@ class Report
 
   def initialize(employees)
     @report_data = {}
+    create_report_data(employees)
   end
 
   def create_report_data(employees)
@@ -26,6 +27,7 @@ class Report
       names << employee.name
     end
     data.store("names", names)
+    data
   end
 
   def positions_in_list(employees)
@@ -85,7 +87,7 @@ class Report
         report.add_line(report.li(report.p("Max: #{data["max_salary"].round(2)}")))
         report.add_line(report.li(report.p("Average: #{data["avg_salary"].round(2)}")))
         report.add_line(report.ul_end)
-        report.add_line(report.p("Number of employees: #{data[num_employees]}"))
+        report.add_line(report.p("Number of employees: #{data["num_employees"]}"))
         report.add_line(report.p("Names:"))
         report.add_line(report.ul_start)
         data["names"].each do |name|
@@ -101,14 +103,14 @@ class Report
     @report_data.each do |position, data|
       report_table = Text::Table.new
       report_table.head = ["Salary Min", "Max", "Avg"]
-      report_table.rows << [data[min_salary].round(2),
-                            data[max_salary].round(2),
-                            data[avg_salary].round(2)]
+      report_table.rows << [data["min_salary"].round(2),
+                            data["max_salary"].round(2),
+                            data["avg_salary"].round(2)]
       report_table.rows << :separator
       report_table.rows << [{ value: 'Number of employees:', colspan: 2 },
                             data["num_employees"]]
       report_table.rows << :separator
-      report_table.rows << ["Names:", { value: data[names], colspan: 2 }]
+      report_table.rows << ["Names:", { value: data["names"], colspan: 2 }]
       puts report_table
     end
   end

@@ -1,5 +1,8 @@
+require_relative 'report'
+require_relative 'display'
+
 class Menu
-  BUFFER = "\n" + "-" * 50 + "\n\n"
+  BUFFER = Display::BUFFER
   ADD = "Add a person to the database (A)"
   SEARCH = "Search for a person (S)"
   DELETE = "Delete a person from the database (D)"
@@ -9,9 +12,10 @@ class Menu
   HTML_REPORT = "or save to html? (H)"
   SEARCH_PROMPT = "Please enter part of the name of the person or their full github or slack account"
 
-  def initialize
+  def initialize(database)
     @main_options = [ADD, SEARCH, DELETE, REPORT, EXIT]
     @report_options = [TEXT_REPORT, HTML_REPORT]
+    @database = database
   end
 
   def response_to_main_prompt
@@ -33,33 +37,24 @@ class Menu
     gets.chomp
   end
 
-  def display_person(person)
-    puts BUFFER
-    puts "Name: #{person.name}"
-    puts "Phone Number: #{person.phone_number}"
-    puts "Address: #{person.address}"
-    puts "Position: #{person.position}"
-    puts "Salary: #{person.salary}"
-    puts "Slack Account: #{person.slack_account}"
-    puts "Github Account: #{person.github_account}"
-    puts BUFFER
-  end
-
   def use_database
-    # db = Database.new
     loop do
       case response_to_main_prompt
       when 'a'
-        puts "call database.add"
+        @database.add
       when 's'
-        puts "call database.search(response_to_search_prompt)"
+        targets = @database.matching_employees(response_to_search_prompt)
+        targets.each do |target|
+          Display.person(target)
+        end
       when 'd'
-        puts "call database.delete(response_to_search_prompt)"
+        @database.delete(@database.matching_employees(response_to_search_prompt))
       when 'r'
+        report = Report.new(@database.people)
         if response_to_report_prompt == 't'
-          puts "call report.text_report"
+          report.text_report
         else
-          puts "call report.html_report"
+          report.html_report
         end
       else
         break
@@ -67,5 +62,3 @@ class Menu
     end
   end
 end
-
-Menu.new.use_database
